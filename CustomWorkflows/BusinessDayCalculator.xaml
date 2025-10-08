@@ -1,0 +1,216 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="GetPreviousWorkDate" this:GetPreviousWorkDate.in_HolidayList="[new List(of DateTime)]" this:GetPreviousWorkDate.in_FirstDayOfWeekend="[DayOfWeek.Saturday]" this:GetPreviousWorkDate.in_SecondDayOfWeekend="[DayOfWeek.Sunday]" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="in_StartingDate" Type="InArgument(s:DateTime)" />
+    <x:Property Name="in_HolidayList" Type="InArgument(scg:List(s:DateTime))" />
+    <x:Property Name="in_FirstDayOfWeekend" Type="InArgument(s:DayOfWeek)" />
+    <x:Property Name="in_SecondDayOfWeekend" Type="InArgument(s:DayOfWeek)" />
+    <x:Property Name="out_WorkDay" Type="OutArgument(s:DateTime)" />
+    <x:Property Name="in_TotalDays" Type="InArgument(x:Int32)" />
+  </x:Members>
+  <VisualBasic.Settings>
+    <x:Null />
+  </VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>826.6666666666666,2944</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>GetPreviousWorkDate_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Runtime.Serialization</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>GlobalVariablesNamespace</x:String>
+      <x:String>GlobalConstantsNamespace</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>Microsoft.Bcl.AsyncInterfaces</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Collections</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
+      <AssemblyReference>System.ComponentModel.TypeConverter</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Linq</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+      <AssemblyReference>System.Memory.Data</AssemblyReference>
+      <AssemblyReference>System.ObjectModel</AssemblyReference>
+      <AssemblyReference>System.Private.CoreLib</AssemblyReference>
+      <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationCore</AssemblyReference>
+      <AssemblyReference>UiPath.Workflow</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>UiPath.Studio.Constants</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence sap2010:Annotation.AnnotationText="Calculates a future or previous working date based on total business days provided by user. &#xA;Arguments:&#xA;- in_StartingDate (DateTime) - optional input argument which allows the user to specify the starting date. Default value is the current day&#xA;- in_FirstDayOfWeekend (System.DayofWeek) - optional input argument which allows the user to specify the first day of the weekend. Default value is Saturday&#xA;- in_SecondDayOfWeekend (System.DayOfWeek) - optional input argument which allows the user to specify the second day of the weekend. Default value is Sunday&#xA;- in_HolidayList (List&lt;DateTime&gt;) - optional input argument which allows the user to specify a list of holidays (non working days)&#xA;- in_TotalDays (Int32) - optional input argument which allows the user to specify the number of business days before or after the current date the user wants to calculate. Default value results in the output of the previous business day.&#xA;- out_WorkDay (DateTime) - the output argument of the workflow, which is the resulting business day.&#xA;&#xA;" DisplayName="BusinessDayCalculator" sap:VirtualizedContainerService.HintSize="654.6666666666666,2879.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_10">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:Int32" Name="DayCounter" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+        <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="592.6666666666666,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Info" Message="[&quot;Start BusinessDayCalculator&quot;]" />
+    <If sap2010:Annotation.AnnotationText="If no value is provided for in_Date, the value will be equal to Datetime.MinValue" Condition="[in_StartingDate.Equals(Datetime.MinValue)]" DisplayName="If in_StartingDate.Equals(Datetime.MinValue)" sap:VirtualizedContainerService.HintSize="592.6666666666666,414.6666666666667" sap2010:WorkflowViewState.IdRef="If_8">
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+      <If.Then>
+        <Assign DisplayName="Assign in_StartingDate" sap:VirtualizedContainerService.HintSize="434,85.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_24">
+          <Assign.To>
+            <OutArgument x:TypeArguments="s:DateTime">[in_StartingDate]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="s:DateTime">[DateTime.Now]</InArgument>
+          </Assign.Value>
+        </Assign>
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,104.66666666666667" sap2010:WorkflowViewState.IdRef="Sequence_12">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </If.Else>
+    </If>
+    <Assign DisplayName="Assign out_WorkDay as in_StartingDate" sap:VirtualizedContainerService.HintSize="592.6666666666666,117.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_25">
+      <Assign.To>
+        <OutArgument x:TypeArguments="s:DateTime">[out_WorkDay]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="s:DateTime">[in_StartingDate]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <If Condition="[in_TotalDays &lt;= 0]" DisplayName="If totalDays &lt;= 0" sap:VirtualizedContainerService.HintSize="592.6666666666666,386.6666666666667" sap2010:WorkflowViewState.IdRef="If_9">
+      <If.Then>
+        <Assign DisplayName="Assign dayCounter" sap:VirtualizedContainerService.HintSize="434,85.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_26">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:Int32">-1</InArgument>
+          </Assign.Value>
+        </Assign>
+      </If.Then>
+      <If.Else>
+        <Assign DisplayName="Assign dayCounter" sap:VirtualizedContainerService.HintSize="434,85.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_27">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:Int32">[DayCounter]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:Int32">1</InArgument>
+          </Assign.Value>
+        </Assign>
+      </If.Else>
+    </If>
+    <ui:InterruptibleWhile CurrentIndex="{x:Null}" sap2010:Annotation.AnnotationText="Check if received date is holiday/weekend. If yes , find next working day and use it as base date." Condition="[out_WorkDay.DayOfWeek.Equals(in_FirstDayOfWeekend) or out_WorkDay.DayOfWeek.Equals(in_SecondDayOfWeekend) or in_HolidayList.Contains(out_WorkDay.Date)]" DisplayName="While received date is holiday/weekend" sap:VirtualizedContainerService.HintSize="592.6666666666666,389.3333333333333" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_1">
+      <ui:InterruptibleWhile.Body>
+        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="496,196" sap2010:WorkflowViewState.IdRef="Sequence_11">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Assign out_WorkDay" sap:VirtualizedContainerService.HintSize="434,108" sap2010:WorkflowViewState.IdRef="Assign_30">
+            <Assign.To>
+              <OutArgument x:TypeArguments="s:DateTime">[out_WorkDay]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="s:DateTime">[out_WorkDay.AddDays(DayCounter)]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:InterruptibleWhile.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:InterruptibleWhile>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="592.6666666666666,176.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Trace" Message="[&quot;SLA start date (PT) calculated: &quot;+out_WorkDay.ToString]" />
+    <DoWhile DisplayName="Do while - count working days" sap:VirtualizedContainerService.HintSize="592.6666666666666,684" sap2010:WorkflowViewState.IdRef="DoWhile_4">
+      <DoWhile.Variables>
+        <Variable x:TypeArguments="x:Int32" Default="0" Name="Counter" />
+      </DoWhile.Variables>
+      <DoWhile.Condition>[Counter &lt; Math.Abs(in_TotalDays)]</DoWhile.Condition>
+      <Sequence DisplayName="Sequence - skip holidays" sap:VirtualizedContainerService.HintSize="546,482.6666666666667" sap2010:WorkflowViewState.IdRef="Sequence_9">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+        <DoWhile DisplayName="Do while - skip holidays" sap:VirtualizedContainerService.HintSize="484,286.6666666666667" sap2010:WorkflowViewState.IdRef="DoWhile_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <DoWhile.Condition>[out_WorkDay.DayOfWeek.Equals(in_FirstDayOfWeekend) or out_WorkDay.DayOfWeek.Equals(in_SecondDayOfWeekend) or in_HolidayList.Contains(out_WorkDay.Date)]</DoWhile.Condition>
+          <Assign DisplayName="Assign out_PreviousWorkDay" sap:VirtualizedContainerService.HintSize="434,85.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_28">
+            <Assign.To>
+              <OutArgument x:TypeArguments="s:DateTime">[out_WorkDay]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="s:DateTime">[out_WorkDay.AddDays(DayCounter)]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </DoWhile>
+        <Assign DisplayName="Assign counter++" sap:VirtualizedContainerService.HintSize="484,108" sap2010:WorkflowViewState.IdRef="Assign_29">
+          <Assign.To>
+            <OutArgument x:TypeArguments="x:Int32">[Counter]</OutArgument>
+          </Assign.To>
+          <Assign.Value>
+            <InArgument x:TypeArguments="x:Int32">[Counter + 1]</InArgument>
+          </Assign.Value>
+        </Assign>
+      </Sequence>
+    </DoWhile>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="592.6666666666666,167.33333333333334" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;End BusinessDayCalculator&quot;]" />
+  </Sequence>
+</Activity>

@@ -1,0 +1,83 @@
+{
+  "name": "Gaig.RPA.Process.SES_FileNet_COI_Processor",
+  "projectId": "788cf043-b204-4a52-a721-7e5c5e3883bc",
+  "description": "Process the emails from SES queue and upload it to filenet along with metadata",
+  "main": "Main.xaml",
+  "dependencies": {
+    "Gaig.Rpa.Library.FilenetActivities": "[2.0.6-137]",
+    "Gaig.Rpa.Library.SES.DocumentExtraction": "[1.0.57-958]",
+    "UiPath.DocumentUnderstanding.Activities": "[2.16.1]",
+    "UiPath.Excel.Activities": "[2.16.3]",
+    "UiPath.IntegrationService.Activities": "[1.17.0]",
+    "UiPath.Mail.Activities": "[2.4.10]",
+    "UiPath.MicrosoftOffice365.Activities": "[2.2.7]",
+    "UiPath.PDF.Activities": "[3.20.2]",
+    "UiPath.System.Activities": "[25.4.4]",
+    "UiPath.UIAutomation.Activities": "[24.10.2]",
+    "UiPath.WebAPI.Activities": "[1.21.1]"
+  },
+  "webServices": [],
+  "entitiesStores": [],
+  "schemaVersion": "4.0",
+  "studioVersion": "20.10.6.0",
+  "projectVersion": "1.0.128",
+  "runtimeOptions": {
+    "autoDispose": false,
+    "netFrameworkLazyLoading": false,
+    "isPausable": true,
+    "isAttended": false,
+    "requiresUserInteraction": true,
+    "supportsPersistence": false,
+    "workflowSerialization": "DataContract",
+    "excludedLoggedData": [
+      "Private:*",
+      "*password*"
+    ],
+    "executionType": "Workflow",
+    "readyForPiP": false,
+    "startsInPiP": false,
+    "mustRestoreAllDependencies": false,
+    "pipType": "ChildSession",
+    "robotVersion": "24.10.0"
+  },
+  "designOptions": {
+    "projectProfile": "Developement",
+    "outputType": "Process",
+    "libraryOptions": {
+      "includeOriginalXaml": false,
+      "privateWorkflows": []
+    },
+    "processOptions": {
+      "ignoredFiles": []
+    },
+    "fileInfoCollection": [
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "e7232def-cdcd-4f86-8ad3-5e1803a1fe8a",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\TC01_SES_COI_Processor_Initialization.xaml"
+      },
+      {
+        "editingStatus": "InProgress",
+        "testCaseId": "87fd49be-4306-4e43-9632-de20b74b9a8d",
+        "testCaseType": "TestCase",
+        "fileName": "Tests\\TC02SES_COI_Procesor_Processtest.xaml"
+      }
+    ],
+    "modernBehavior": false,
+    "saveToCloud": false
+  },
+  "expressionLanguage": "VisualBasic",
+  "entryPoints": [
+    {
+      "filePath": "Main.xaml",
+      "uniqueId": "9e57ac64-48e6-4896-a17e-be298d0b94c6",
+      "input": [],
+      "output": []
+    }
+  ],
+  "isTemplate": false,
+  "templateProjectData": {},
+  "publishData": {},
+  "targetFramework": "Windows"
+}
